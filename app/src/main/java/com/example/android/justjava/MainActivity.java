@@ -11,8 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import java.text.NumberFormat;
-
 /**
  * This app displays an order form to order coffee.
  */
@@ -30,7 +28,17 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        displayPrice(quantity * 5);
+
+        int price = quantity * 5;
+        String priceMessage = "Total: $"+price;
+        priceMessage = priceMessage + "\nThank you!";
+
+        //calculatePrice(quantity);
+        calculatePrice(quantity,10);
+        //calculatePrice();
+
+        //displayPrice(quantity * 5);
+        displayMessage(priceMessage);
     }
 
 
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void increment(View view) {
         quantity = quantity +1;
-        display(quantity);
+        displayQuantity(quantity);
         //displayPrice(quantity * 5);
     }
 
@@ -48,24 +56,55 @@ public class MainActivity extends AppCompatActivity {
      */
     public void decrement(View view) {
         quantity = quantity - 1;
-        display(quantity);
+        displayQuantity(quantity);
         //displayPrice(quantity * 5);
     }
 
     /**
      * This method displays the given quantity value on the screen.
+     *
+     * * @param numberOfCoffees number of coffee cups
      */
-    private void display(int number) {
+    private void displayQuantity(int numberOfCoffees) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText("" + numberOfCoffees);
     }
 
     /**
      * This method displays the given price on the screen.
-     */
+     *
+     * @param number
+
     private void displayPrice(int number) {
+    TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+    priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
+    }
+
+     */
+
+    /**
+     * This method displays the given price on the screen.
+     *
+     * @param message is the message to display
+     */
+
+    private void displayMessage(String message) {
         TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
+        priceTextView.setText(message);
+    }
+
+
+
+    /**
+     * Calculates the price of the order.
+     *
+     * @param quantity is the number of cups of coffee ordered
+     * @param pricePerCup is the price of one cup of coffee
+     */
+    private void calculatePrice(int quantity, int pricePerCup) {
+        // int price = 5 * 5;
+        // int price = quantity * 5;
+        int price = quantity * pricePerCup;
     }
 
 }
