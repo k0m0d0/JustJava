@@ -29,16 +29,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public void submitOrder(View view) {
 
-        int price = quantity * 5;
-        String priceMessage = "Total: $"+price;
+        int price = calculatePrice();
+
+        String priceMessage = "Total: $" + price;
         priceMessage = priceMessage + "\nThank you!";
 
-        //calculatePrice(quantity);
-        calculatePrice(quantity,10);
-        //calculatePrice();
-
-        //displayPrice(quantity * 5);
-        displayMessage(priceMessage);
+        displayMessage(createOrderSummary(price));
     }
 
 
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the + button is clicked.
      */
     public void increment(View view) {
-        quantity = quantity +1;
+        quantity = quantity + 1;
         displayQuantity(quantity);
         //displayPrice(quantity * 5);
     }
@@ -57,30 +53,17 @@ public class MainActivity extends AppCompatActivity {
     public void decrement(View view) {
         quantity = quantity - 1;
         displayQuantity(quantity);
-        //displayPrice(quantity * 5);
     }
 
     /**
      * This method displays the given quantity value on the screen.
      *
-     * * @param numberOfCoffees number of coffee cups
+     * @param numberOfCoffees number of coffee cups
      */
     private void displayQuantity(int numberOfCoffees) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
         quantityTextView.setText("" + numberOfCoffees);
     }
-
-    /**
-     * This method displays the given price on the screen.
-     *
-     * @param number
-
-    private void displayPrice(int number) {
-    TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-    priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
-
-     */
 
     /**
      * This method displays the given price on the screen.
@@ -94,18 +77,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Calculates the price of the order.
      *
-     * @param quantity is the number of cups of coffee ordered
-     * @param pricePerCup is the price of one cup of coffee
+     * @return total price
      */
-    private void calculatePrice(int quantity, int pricePerCup) {
-        // int price = 5 * 5;
-        // int price = quantity * 5;
-        int price = quantity * pricePerCup;
+    private int calculatePrice() {
+        return quantity * 5;
     }
 
+    /**
+     * Creates a summary of the order
+     *
+     *@param price is the price of the item ordered
+     *@return the summary
+     */
+    private String createOrderSummary (int price){
+        String summary = "Name: Andrei Chitic" + "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
+        return summary;
+    }
 }
 
