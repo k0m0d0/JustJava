@@ -6,10 +6,13 @@
  */
 package com.example.android.justjava;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This app displays an order form to order coffee.
@@ -31,10 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
         int price = calculatePrice();
 
-        String priceMessage = "Total: $" + price;
-        priceMessage = priceMessage + "\nThank you!";
-
         displayMessage(createOrderSummary(price));
+
+        //Toast to01 = Toast.makeText(this,"Order created!",10);
+        //to01.show();
+
+        //Log.i("tag01","Bau! Bau! Bau! Here is your order!");
     }
 
 
@@ -44,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     public void increment(View view) {
         quantity = quantity + 1;
         displayQuantity(quantity);
-        //displayPrice(quantity * 5);
     }
 
     /**
@@ -72,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 
 
@@ -89,10 +93,10 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Creates a summary of the order
      *
-     *@param price is the price of the item ordered
-     *@return the summary
+     * @param price is the price of the item ordered
+     * @return the summary
      */
-    private String createOrderSummary (int price){
+    private String createOrderSummary(int price) {
         String summary = "Name: Andrei Chitic" + "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
         return summary;
     }
