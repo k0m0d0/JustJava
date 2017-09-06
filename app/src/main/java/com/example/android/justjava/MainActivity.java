@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,13 +34,22 @@ public class MainActivity extends AppCompatActivity {
     public void submitOrder(View view) {
 
         int price = calculatePrice();
+        //Log.v("MainActivity", "The price is " + price);
 
-        displayMessage(createOrderSummary(price));
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+
+        //Log.v("MainActivity", "Has whipped cream: " + hasWhippedCream);
+
+        displayMessage(createOrderSummary(price, hasWhippedCream, hasChocolate));
 
         //Toast to01 = Toast.makeText(this,"Order created!",10);
         //to01.show();
 
-        //Log.i("tag01","Bau! Bau! Bau! Here is your order!");
+
     }
 
 
@@ -93,11 +103,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Creates a summary of the order
      *
-     * @param price is the price of the item ordered
+     * @param price           is the price of the item ordered
+     * @param addWhippedCream is whether or not the user wants whipped cream topping
+     * @param addChocolate    is whether or not the user wants chocolate topping
      * @return the summary
      */
-    private String createOrderSummary(int price) {
-        String summary = "Name: Andrei Chitic" + "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
+    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate) {
+        String summary = "Name: Andrei Chitic" + "\nAdd whipped cream? " + addWhippedCream;
+        summary += "\nAdd chocolate? " + addChocolate;
+        summary += "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
         return summary;
     }
 }
