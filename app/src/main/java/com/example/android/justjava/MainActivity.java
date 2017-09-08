@@ -6,14 +6,19 @@
  */
 package com.example.android.justjava;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.net.URI;
 
 /**
  * This app displays an order form to order coffee.
@@ -32,19 +37,31 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-
-        int price = calculatePrice();
-        //Log.v("MainActivity", "The price is " + price);
-
         CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
 
         CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_checkbox);
         boolean hasChocolate = chocolateCheckBox.isChecked();
 
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
+
+        EditText customerNameText = (EditText) findViewById(R.id.name_field);
+        String customerName = customerNameText.getText().toString();
+
         //Log.v("MainActivity", "Has whipped cream: " + hasWhippedCream);
 
-        displayMessage(createOrderSummary(price, hasWhippedCream, hasChocolate));
+        String message = createOrderSummary(price, hasWhippedCream, hasChocolate, customerName);
+
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, "JustJava order for " + customerName);
+        intent.putExtra(Intent.EXTRA_TEXT,message);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+        displayMessage(message);
 
         //Toast to01 = Toast.makeText(this,"Order created!",10);
         //to01.show();
@@ -57,7 +74,13 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the + button is clicked.
      */
     public void increment(View view) {
-        quantity = quantity + 1;
+        if (quantity < 100) {
+            quantity = quantity + 1;
+        } else {
+            Toast to01 = Toast.makeText(this,"Maximum number of cups of coffee is 100!",Toast.LENGTH_SHORT);
+            to01.show();
+            return;
+        }
         displayQuantity(quantity);
     }
 
@@ -65,7 +88,13 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the - button is clicked.
      */
     public void decrement(View view) {
-        quantity = quantity - 1;
+        if (quantity > 1) {
+            quantity = quantity - 1;
+        } else {
+            Toast to01 = Toast.makeText(this,"You should order at least one coffee!",Toast.LENGTH_SHORT);
+            to01.show();
+            return;
+        }
         displayQuantity(quantity);
     }
 
@@ -94,10 +123,22 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calculates the price of the order.
      *
+     * @param hasWhippedCream is whether or not the user wants cream topping
+     * @param hasChocolate    is whether or not the user wants chocolate
      * @return total price
      */
-    private int calculatePrice() {
-        return quantity * 5;
+    private int calculatePrice(boolean hasWhippedCream, boolean hasChocolate) {
+        int basePrice = 5;
+
+        if (hasWhippedCream) {
+            basePrice = basePrice + 1;
+        }
+
+        if (hasChocolate) {
+            basePrice = basePrice + 2;
+        }
+
+        return quantity * basePrice;
     }
 
     /**
@@ -108,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
      * @param addChocolate    is whether or not the user wants chocolate topping
      * @return the summary
      */
-    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate) {
-        String summary = "Name: Andrei Chitic" + "\nAdd whipped cream? " + addWhippedCream;
+    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate, String customerName) {
+        String summary = "Name: " + customerName + "\nAdd whipped cream? " + addWhippedCream;
         summary += "\nAdd chocolate? " + addChocolate;
         summary += "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
         return summary;
