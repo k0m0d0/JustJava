@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">DoarJava</string>
+    <string name="editTextView_name">Nume</string>
+    <string name="optionsTextView_name">Ingrediente</string>
+    <string name="order_summary_name">Nume: <xliff:g id="customerName" example="John">%s</xliff:g></string>
+    <string name="thank_you">Multumesc!</string>
+    <string name="chocolate">Ciocolata</string>
+    <string name="whipped_cream">Frisca</string>
+    <string name="quantity">Bucati</string>
+    <string name="order">Comanda</string>
+    <string name="order_summary_whippedCream">Adauga frisca?</string>
+    <string name="order_summary_chocolate">Adauga ciocolata?</string>
+</resources>

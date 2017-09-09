@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        displayMessage(message);
+        //displayMessage(message);
 
         //Toast to01 = Toast.makeText(this,"Order created!",10);
         //to01.show();
@@ -114,10 +114,11 @@ public class MainActivity extends AppCompatActivity {
      * @param message is the message to display
      */
 
-    private void displayMessage(String message) {
+    /*
+   private void displayMessage(String message) {
         TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
         orderSummaryTextView.setText(message);
-    }
+    }*/
 
 
     /**
@@ -150,9 +151,12 @@ public class MainActivity extends AppCompatActivity {
      * @return the summary
      */
     private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate, String customerName) {
-        String summary = "Name: " + customerName + "\nAdd whipped cream? " + addWhippedCream;
-        summary += "\nAdd chocolate? " + addChocolate;
-        summary += "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
+        String summary = getString(R.string.order_summary_name,customerName);
+        //summary += "\nAdd whipped cream? " + addWhippedCream;
+        summary += "\n" + getString(R.string.order_summary_whippedCream);
+        //summary += "\nAdd chocolate? " + addChocolate;
+        summary += "\n" + getString(R.string.order_summary_chocolate);
+        summary += "\nQuantity: " + quantity + "\nTotal: $" + price + "\n" + getString(R.string.thank_you);
         return summary;
     }
 }
